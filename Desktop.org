@@ -61,7 +61,10 @@
 (defun efs/start-panel ()
   (interactive)
   (efs/kill-panel)
-  (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel")))
+  (when (string= (system-name) "arch-laptop") 
+    (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel-laptop")))
+  (when (string= (system-name) "arch-pc") 
+    (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel-desktop"))))
 
 (defun efs/send-polybar-hook (module-name hook-index)
   (start-process-shell-command "polybar-msg" nil (format "polybar-msg hook %s %s" module-name hook-index)))
@@ -188,7 +191,18 @@
   (exwm-input-set-key (kbd "s-f") 'exwm-layout-toggle-fullscreen)
 
   (exwm-enable))
+
+(use-package desktop-environment
+  :after exwm
+  :config (desktop-environment-mode)
+  :custom
+  (desktop-environment-brightness-small-increment "2%+")
+  (desktop-environment-brightness-small-decrement "2%-")
+  (desktop-environment-brightness-normal-increment "5%+")
+  (desktop-environment-brightness-normal-decrement "5%-"))
+
 #+end_src
+
 * Applications
 ** Browsers
 *** Qutebrowser
@@ -269,9 +283,9 @@ efs https://github.com/daviwil/emacs-from-scratch
 
 #+end_src
 ** Polybar
+*** Basic settings
 
-*** Config File
-#+begin_src conf :tangle ".config/polybar/config" :mkdirp yes
+#+begin_src conf :tangle "~/.dotfiles/.config/polybar/config" :mkdirp yes
 
 ; Docs: https://github.com/polybar/polybar
 ;==========================================================
@@ -293,7 +307,12 @@ secondary = #e60053
 alert = #bd2c40
 underline-1 = #c792ea
 
-[bar/panel]
+#+end_src
+
+*** Laptop Config
+#+begin_src conf :tangle "~/.dotfiles/.config/polybar/config" :mkdirp yes
+
+[bar/panel-laptop]
 width = 100%
 height = 25
 offset-x = 0
@@ -322,7 +341,7 @@ font-2 = "Material Icons:size=10;5"
 font-3 = "Fira Mono:size=8;-3"
 
 modules-left = exwm-workspace
-modules-right = cpu temperature battery date
+modules-right = wireless-network cpu temperature battery date
 
 tray-position = right
 tray-padding = 2
@@ -330,7 +349,52 @@ tray-maxsize = 28
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+#+end_src
 
+*** Desktop Config
+#+begin_src conf :tangle "~/.dotfiles/.config/polybar/config" :mkdirp yes
+
+[bar/panel-desktop]
+width = 100%
+height = 30
+offset-x = 0
+offset-y = 0
+fixed-center = true
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-top = 5
+padding-left = 1
+padding-right = 1
+
+module-margin = 1
+
+font-0 = "Cantarell:size=10:weight=bold;2"
+font-1 = "Font Awesome:size=8;2"
+font-2 = "Material Icons:size=10;5"
+font-3 = "Fira Mono:size=15;5"
+
+modules-left = exwm-workspace
+modules-right = wired-network cpu memory date
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 28
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+#+end_src
+
+*** Polybar Modules
+#+begin_src conf :tangle "~/.dotfiles/.config/polybar/config" :mkdirp yes
 [module/exwm-workspace]
 type = custom/ipc
 hook-0 = emacsclient -e "exwm-workspace-current-index" | sed -e 's/^"//' -e 's/"$//'
@@ -344,7 +408,7 @@ interval = 2
 format = <label> <ramp-coreload>
 format-underline = ${colors.underline-1}
 click-left = emacsclient -e "(proced)"
-label = %percentage:2%%
+label = %percentage%%
 ramp-coreload-spacing = 0
 ramp-coreload-0 = ▁
 ramp-coreload-0-foreground = ${colors.foreground-alt}
@@ -414,5 +478,115 @@ format-warn-underline = ${self.format-underline}
 label = %temperature-c%
 label-warn = %temperature-c%!
 label-warn-foreground = ${colors.secondary}
+
+[module/memory]
+type = internal/memory
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3
+
+format =  <label> <ramp-used>
+label = %gb_used%/%gb_total%
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.underline-1}
+
+; Only applies if <ramp-used> is used
+ramp-used-0 = ▁
+ramp-used-1 = ▂
+ramp-used-2 = ▃
+ramp-used-3 = ▄
+ramp-used-4 = ▅
+ramp-used-5 = ▆
+ramp-used-6 = ▇
+ramp-used-7 = █
+
+[module/wireless-network]
+type = internal/network
+interface = wlo1
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Available tags:
+;   <label-connected> (default)
+;   <ramp-signal>
+format-connected = <label-connected>
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+; format-packetloss = <animation-packetloss> <label-connected>
+
+; All labels support the following tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+
+; Default: %ifname% %local_ip%
+label-connected =  %essid% %signal%
+format-connected-underline = ${colors.underline-1}
+; label-connected-foreground = #eefafafa
+
+; Default: (none)
+label-disconnected = not connected
+format-disconnected-underline = ${colors.underline-1}
+;label-disconnected-foreground = #66ffffff
+
+[module/wired-network]
+type = internal/network
+interface = enp4s0
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Available tags:
+;   <label-connected> (default)
+;   <ramp-signal>
+format-connected = <label-connected>
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+; format-packetloss = <animation-packetloss> <label-connected>
+
+; All labels support the following tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+
+; Default: %ifname% %local_ip%
+label-connected =  %local_ip% %linkspeed%
+format-connected-underline = ${colors.underline-1}
+; label-connected-foreground = #eefafafa
+
+; Default: (none)
+label-disconnected = not connected
+format-disconnected-underline = ${colors.underline-1}
+;label-disconnected-foreground = #66ffffff
+
+
 
 #+end_src

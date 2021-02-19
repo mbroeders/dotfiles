@@ -553,7 +553,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 (defun mb/org-babel-tangle-config ()
     (when (string-equal (file-name-directory (buffer-file-name))
-                        (expand-file-name "~/.emacs.d/"))
+                        (expand-file-name "~/.dotfiles/"))
         ;; Dynamic scoping to the rescue
         (let ((org-confirm-babel-evaluate nil))
             (org-babel-tangle))))

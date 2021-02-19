@@ -1,5 +1,5 @@
 #+TITLE: Emacs EXWM Desktop Environment
-#+PROPERTY: header-args :tangle "~/.emacs.d/desktop.el"
+#+PROPERTY: header-args :tangle "./.emacs.d/desktop.el"
 
 * Window Management
 ** EXWM Configuration
@@ -193,7 +193,7 @@
 ** Browsers
 *** Qutebrowser
 Basic Configuration
-#+begin_src python :tangle "~/.config/qutebrowser/config.py" :mkdirp yes
+#+begin_src python :tangle ".config/qutebrowser/config.py" :mkdirp yes
 
 # Open every tab as a new window, Vimb style
 c.tabs.tabs_are_windows = True
@@ -210,7 +210,7 @@ c.content.autoplay = False
 c.fonts.hints = "bold 12pt monospace" #20
 
 # Better default fonts
-c.fonts.web.family.standard = "Bitstream Vera Sans"
+c.fonts.web.family.standard = "BitstreamVeraSansMono Nerd Font"
 c.fonts.web.family.serif = "Bitstream Vera Serif"
 c.fonts.web.family.sans_serif = "Bitstream Vera Sans"
 c.fonts.web.family.fixed = "Fira Mono"
@@ -260,7 +260,7 @@ c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
 #+end_src
 
 Quickmarks
-#+begin_src conf :tangle "~/.config/qutebrowser/quickmarks"
+#+begin_src conf :tangle ".config/qutebrowser/quickmarks"
 
 gg https://www.google.com
 nos https://www.nos.nl
@@ -271,7 +271,7 @@ efs https://github.com/daviwil/emacs-from-scratch
 ** Polybar
 
 *** Config File
-#+begin_src conf :tangle "~/.config/polybar/config" :mkdirp yes
+#+begin_src conf :tangle ".config/polybar/config" :mkdirp yes
 
 ; Docs: https://github.com/polybar/polybar
 ;==========================================================

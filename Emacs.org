@@ -1,5 +1,5 @@
 #+TITLE: Emacs Configuration File
-#+PROPERTY: header-args :tangle "~/.emacs.d/init.el"
+#+PROPERTY: header-args :tangle "./.emacs.d/init.el"
 
 * Startup Performance
 
@@ -96,8 +96,8 @@
  (package-refresh-contents))
 
 ;; Initialize use-package on non-Linux platforms
-;;(unless (package-installed-p 'use-package)
-;;   (package-install 'use-package))
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -547,7 +547,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 #+end_src
 
-*** Auto Tangle Configuration File 
+** Auto Tangle Configuration File 
 
 #+begin_src emacs-lisp
 
@@ -566,16 +566,14 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 #+begin_src emacs-lisp
 
-(after! org
-  (use-package org-cal
+(use-package org-gcal
     :config
         (require 'org-gcal)
         (setq org-gcal-client-id "657985220157-lfv9u226bbna5rgprfovea1cm49eogbt.apps.googleusercontent.com"
                 org-gcal-client-secret "bKdOOHoME7zHhKz2woHfj01H"
                 org-gcal-fetch-file-alist '(("mbroeders@gmail.com" .  "~/documents/org/gtd/agenda.org")
-                                            ("family08361847864604318057@group.calendar.google.com" .  "~/documents/org/gtd/agenda.org")))
-       ))
-
+                                            ("family08361847864604318057@group.calendar.google.com" .  "~/documents/org/gtd/agenda.org"))))
+    
 #+end_src
 
 * Mail

@@ -1,0 +1,7 @@
+# -*- mode: gitignore; -*-
+
+elpa/
+eshell/history
+eshell/lastdir
+var/backup
+var/auto-save

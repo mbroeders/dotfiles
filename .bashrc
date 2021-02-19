@@ -4,9 +4,17 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
 PS1='[\u@\h \W]\$ '
-PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/mark/.emacs.d/bin
 
 alias ls='ls --color=auto'
 alias ll='ls -all --color=auto'
+
+# Pacman shortcuts
+alias pacup='sudo pacman -Syu'  # Upgrade system
+alias aurup='yay -Syua'         # Upgrade AUR and system
+alias pacs='sudo pacman -Ss'    # Search for package(s)
+
+# Various program aliases
+alias radio1='mpv http://icecast.omroep.nl/radio1-bb-mp3'   # Play radio 1 from command line
+alias aria2c='aria2c --seed-time=0'                         # Download torrent and stop when finished
+alias rdp='remmina -c '                                     # Open RDP file

@@ -739,7 +739,7 @@ Inbox ~/.mail/mail/inbox
 Channel personal
 Master :personal-remote:
 Slave :personal-local:
-Patterns * 
+Patterns * "Archive" "Rino"
 Create Both
 SyncState *
 Sync All
@@ -814,6 +814,7 @@ Account Ll
 MaildirStore ll-local
 Subfolders Verbatim
 Path ~/.mail/lorentzlaan/
+Inbox ~/.mail/lorentzlaan/inbox
 
 Channel ll
 Master :ll-remote:

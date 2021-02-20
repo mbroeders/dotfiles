@@ -751,11 +751,12 @@ Inbox ~/.mail/mail/inbox
 Channel personal
 Master :personal-remote:
 Slave :personal-local:
-Patterns * "Archive" "Rino"
+Patterns *
 Create Both
 SyncState *
 Sync All
 CopyArrivalDate yes
+Expunge Both
 
 #Channel sync-personal-inbox
 #Master :personal-remote:
@@ -806,6 +807,7 @@ Create Both
 SyncState *
 Sync All
 CopyArrivalDate yes
+Expunge Both
 
 ## THIRD ACCOUNT (lorentzlaan@markbroeders.nl)
 IMAPaccount Ll
@@ -836,6 +838,7 @@ Create Both
 SyncState *
 Sync All
 CopyArrivalDate yes
+Expunge Both
 
 #+end_src
 

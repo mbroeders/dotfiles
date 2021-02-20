@@ -363,6 +363,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 #+end_src
 
 ** Basic Config
+*** Agenda Files, TODO Keywords, and Keybindings
 
 #+begin_src emacs-lisp
 
@@ -386,8 +387,8 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     (setq org-habit-graph-column 60)
 
     (setq org-todo-keywords
-    '((sequence "TODO(t)" "NEXT(n)" "CANCELLED(c@/!" "|" "DONE(d!)")
-    (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+    '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@/!)" "CANCELLED(c@/!" "|" "DONE(d!)")
+      (sequence "PROJ(p)" "PLAN(P)" "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "Done(d!)" "CANC(k@")))
 
     (setq org-refile-targets
     '(("../general_archive.org" :maxlevel . 1)
@@ -400,13 +401,12 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     '((:startgroup)
     ; Put mutually exclusive tags here
     (:endgroup)
-    ("@errand" . ?E)
-    ("@home" . ?H)
-    ("@work" . ?W)
-    ("agenda" . ?a)
-    ("planning" . ?p)
+    ("@COMPUTER" . ?C)
+    ("@HOME" . ?H)
+    ("@WORK" . ?W)
+    ("@PHONE" . ?t)
+    ("project" . ?p)
     ("publish" . ?P)
-    ("batch" . ?b)
     ("note" . ?n)
     ("idea" . ?i)))
 
@@ -420,29 +420,34 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     (mb/org-font-setup))
 
     #+end_src
-**** Custom Agenda Views
+*** Custom Agenda Views
 
 #+begin_src emacs-lisp
 
 ;; Configure custom agenda views
 (setq org-agenda-custom-commands
-'(("d" "Dashboard"
-((agenda "" ((org-deadline-warning-days 7)))
-(todo "NEXT"
-((org-agenda-overriding-header "Next Tasks")))
-(tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+    '(("d" "Dashboard"
+        ((agenda "" ((org-deadline-warning-days 7)))
+            (todo "NEXT"
+                ((org-agenda-overriding-header "Next Tasks")))
+            (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
-("n" "Next Tasks"
-((todo "NEXT"
-((org-agenda-overriding-header "Next Tasks")))))
+    ("n" "Next Tasks"
+        ((todo "NEXT"
+            ((org-agenda-overriding-header "Next Tasks")))))
 
-("W" "Work Tasks" tags-todo "+work-email")
+    ("W" "Work Tasks" tags-todo "+work-email")
 
-;; Low-effort next actions
-("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-((org-agenda-overriding-header "Low Effort Tasks")
-(org-agenda-max-todos 20)
-(org-agenda-files org-agenda-files)))
+    ;; Low-effort next actions
+    ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+        ((org-agenda-overriding-header "Low Effort Tasks")
+         (org-agenda-max-todos 20)
+         (org-agenda-files org-agenda-files)))))
+#+end_src
+
+And some old configuration code that I will have to review
+
+#+begin_src emacs-lisp :tangle no
 
 ("w" "Workflow Status"
 ((todo "WAIT"
@@ -470,43 +475,53 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 (org-agenda-files org-agenda-files)))
 (todo "CANC"
 ((org-agenda-overriding-header "Cancelled Projects")
-(org-agenda-files org-agenda-files)))))))
+(org-agenda-files org-agenda-files)))))
+
 #+end_src
 
-**** Capture Templates
+*** Capture Templates
 
 #+begin_src emacs-lisp
 
 (setq org-capture-templates
 `(("t" "Tasks / Projects")
-("tt" "Task" entry (file+olp "~/documents/org/gtd/inbox.org" "Tasks")
-"* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+("tn" "Next Item" entry 
+  (file+olp "~/documents/org/gtd/inbox.org" "Tasks")
+  "* NEXT %?\n  %U\n  %a\n  %i" :empty-lines 1)
+("tt" "Task" entry 
+  (file+olp "~/documents/org/gtd/inbox.org" "Tasks")
+  "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+("tp" "Project" entry 
+  (file+headline "~/documents/org/gtd/projects.org" "PROJECTEN")
+  "* PROJ %?\n %U\n %i" :empty-lines 1)
 
 ("j" "Journal Entries")
 ("jj" "Journal" entry
-(file+olp+datetree "~/documents/org/gtd/journal.org")
-"\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-:clock-in :clock-resume
-:empty-lines 1)
+  (file+olp+datetree "~/documents/org/gtd/journal.org")
+  "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+  ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+  :clock-in :clock-resume
+  :empty-lines 1)
 ("jm" "Meeting" entry
-(file+olp+datetree "~/documents/org/gtd/journal.org")
-"* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-:clock-in :clock-resume
-:empty-lines 1)
+  (file+olp+datetree "~/documents/org/gtd/journal.org")
+  "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+  :clock-in :clock-resume
+  :empty-lines 1)
 
 ("w" "Workflows")
-("we" "Checking Email" entry (file+olp+datetree "~/documents/org/gtd/journal.org")
-"* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+("we" "Checking Email" entry 
+  (file+olp+datetree "~/documents/org/gtd/journal.org")
+  "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
 ("m" "Metrics Capture")
-("mw" "Weight" table-line (file+headline "~/documents/org/gtd/metrics.org" "Weight")
-"| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)
+("mw" "Weight" table-line 
+  (file+headline "~/documents/org/gtd/metrics.org" "Weight")
+  "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)
 
-("m" "Email Workflow")
-("mf" "Follow Up" entry (file+headline "~/documents/org/gtd/inbox.org" "Follow-up")
+("e" "Email Workflow")
+("ef" "Follow Up" entry (file+headline "~/documents/org/gtd/inbox.org" "Follow-up")
     "* TODO Follow up with %:fromname on %:subject\n%a\n\n%i")
-("mr" "Read Later" entry (file+headline "~/documents/org/gtd/inbox.org" "Read Later")
+("er" "Read Later" entry (file+headline "~/documents/org/gtd/inbox.org" "Read Later")
     "* TODO Read %:subject\n%a\n\n%i")
 
 ("h" "Hobbies")
@@ -515,19 +530,19 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 #+end_src
 
-**** Nice Header Bullets
+*** Nice Header Bullets
 
 #+begin_src emacs-lisp
 
 (use-package org-bullets
-:after org
-:hook (org-mode . org-bullets-mode)
-:custom
-(org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+    :after org
+    :hook (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 #+end_src
 
-**** Center Org Buffers
+*** Center Org Buffers
 
 #+begin_src emacs-lisp
 
@@ -590,7 +605,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 #+end_src
 
 * Mail
-
+** Basic Configuration
 Let's start with some basic information
 
 #+begin_src emacs-lisp

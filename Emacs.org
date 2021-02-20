@@ -617,36 +617,331 @@ Let's start with some basic information
 
 ** Mu4e
 
+#+begin_src emacs-lisp
+
+(use-package pinentry)
+
+(use-package mu4e
+    :ensure nil
+    :config
+    
+    ;; This is set to 't' to avoid mail syncing issues when using mbsync
+    (setq mu4e-change-filenames-when-moving t)
+    (setq mu4e-maildir "~/.mail")
+    (setq mu4e-get-mail-command (format "INSIDE_EMACS=%s mbsync -a" emacs-version)
+        epg-pinentry-mode 'ask)
+    (pinentry-start)
+    
+    (setq mu4e-contexts
+        (list
+         ;; Personal account
+         (make-mu4e-context
+          :name "Personal"
+          :match-func
+            (lambda (msg)
+              (when msg
+                (string-prefix-p "/mail" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address . "mail@markbroeders.nl")
+                  (user-full-name    . "Mark Broeders")
+                  (mu4e-drafts-folder  . "/mail/drafts")
+                  (mu4e-sent-folder    . "/mail/Sent")
+                  (mu4e-refile-folder  . "/mail/Archive")
+                  (mu4e-trash-folder   . "/mail/Trash")))
+            ;; Lorentzlaan account
+            (make-mu4e-context
+            :name "Ll"
+            :match-func
+                (lambda (msg)
+                (when msg
+                    (string-prefix-p "/lorentzlaan" (mu4e-message-field msg :maildir))))
+            :vars '((user-mail-address . "lorentzlaan@markbroeders.nl")
+                    (user-full-name    . "Mark Broeders")
+                    (mu4e-drafts-folder  . "/lorentzlaan/drafts")
+                    (mu4e-sent-folder    . "/lorentzlaan/Sent")
+                    (mu4e-refile-folder  . "/lorentzlaan/Archive")
+                    (mu4e-trash-folder   . "/lorentzlaan/Trash")))
+            ;; Commercial account
+            (make-mu4e-context
+            :name "Commercial"
+            :match-func
+                (lambda (msg)
+                (when msg
+                    (string-prefix-p "/inbox" (mu4e-message-field msg :maildir))))
+            :vars '((user-mail-address . "inbox@markbroeders.nl")
+                    (user-full-name    . "Mark Broeders")
+                    (mu4e-drafts-folder  . "/inbox/drafts")
+                    (mu4e-sent-folder    . "/inbox/Sent")
+                    (mu4e-refile-folder  . "/inbox/Archive")
+                    (mu4e-trash-folder   . "/inbox/Trash")))))
+
+    (setq mu4e-maildir-shortcuts
+        '(("/mail/Inbox"     . ?i)
+          ("/mail/Sent"      . ?s)
+          ("/mail/Trash"     . ?t)
+          ("/mail/drafts"    . ?d)
+          ("/mail/Archive"   . ?a)))
+
+    (setq
+        message-send-mail-function   'smtpmail-send-it
+        smtpmail-default-smtp-server "mail.mijndomein.nl"
+        smtpmail-smtp-server         "mail.mijndomein.nl"
+        smtpmail-stream-type          'starttls
+        smtpmail-smtp-service 587
+    ))
+
+#+end_src
+
+** Mbsync
+
+#+begin_src conf :tangle "~/.dotfiles/.mbsyncrc"
+
+#   Global configuration section
+#   Values here are used as defaults for any following Channel section that
+#   doesn't specify them.
+#Expunge None
+#Create Both
+
+#MaildirStore local
+#Path ~/mail/
+#Trash Trash
+
+# See https://blog.lazkani.io/posts/misc/email-imap-setup-with-isync/
+
+IMAPaccount Personal
+Host mail.mijndomein.nl
+User mail@markbroeders.nl
+# Pass
+# Fetch password from a gpg-encrypted file:
+PassCmd "gpg --quiet --for-your-eyes-only --decrypt $HOME/.imappassword.gpg"
+# Use SSL
+SSLType IMAPS
+# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore personal-remote
+Account Personal
+
+# Maildir part: where do we want to store emails
+MaildirStore personal-local
+Subfolders Verbatim
+Path ~/.mail/mail/
+Inbox ~/.mail/mail/inbox
+
+# Synchronize stuff
+# I want to synchronize my server Inbox with my on disk Inbox both ways. If the Inbox folder
+# does not exist on disk, create it. The name of the Inbox on the server is Inbox.
+# This can be translated to the following.
+
+Channel sync-personal-inbox
+Master :personal-remote:
+Slave :personal-local:Inbox
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+#Channel sync-personal-default
+#Master :personal-remote:
+#Slave :personal-local:
+## Patterns "INBOX" "POSTVAK IN" "inbox" "Postvak IN"
+#Create Slave
+#SyncState *
+#CopyArrivalDate yes
+
+Channel sync-personal-archive
+Master :personal-remote:"Archive"
+Slave :personal-local:Archive
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-personal-archive
+Master :personal-remote:"Rino"
+Slave :personal-local:Rino
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-personal-sent
+Master :personal-remote:"Sent"
+Slave :personal-local:Sent
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-personal-trash
+Master :personal-remote:"Junk"
+Slave :personal-local:Trash
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Group Personal
+Channel sync-personal-inbox
+Channel sync-personal-archive
+Channel sync-personal-sent
+Channel sync-personal-trash
+
+## SECOND ACCOUNT (inbox@markbroeders.nl)
+IMAPaccount Commercial
+Host mail.mijndomein.nl
+User inbox@markbroeders.nl
+# Pass
+# Fetch password from a gpg-encrypted file:
+PassCmd "gpg --quiet --for-your-eyes-only --decrypt $HOME/.imappassword.gpg"
+# Use SSL
+SSLType IMAPS
+# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore commercial-remote
+Account Commercial
+
+# Maildir part: where do we want to store emails
+MaildirStore commercial-local
+Subfolders Verbatim
+Path ~/.mail/inbox/
+Inbox ~/.mail/inbox/inbox
+
+# Synchronize stuff
+# I want to synchronize my server Inbox with my on disk Inbox both ways. If the Inbox folder
+# does not exist on disk, create it. The name of the Inbox on the server is Inbox.
+# This can be translated to the following.
+
+Channel sync-commercial-inbox
+Master :commercial-remote:
+Slave :commercial-local:Inbox
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+#Channel sync-personal-default
+#Master :personal-remote:
+#Slave :personal-local:
+## Patterns "INBOX" "POSTVAK IN" "inbox" "Postvak IN"
+#Create Slave
+#SyncState *
+#CopyArrivalDate yes
+
+Channel sync-commercial-archive
+Master :commercial-remote:"Archive"
+Slave :commercial-local:Archive
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-commercial-archive
+Master :commercial-remote:"Facturen"
+Slave :commercial-local:Facturen
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-commercial-sent
+Master :commercial-remote:"Sent"
+Slave :commercial-local:Sent
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-commercial-trash
+Master :commercial-remote:"Junk"
+Slave :commercial-local:Trash
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Group Commercial
+Channel sync-commercial-inbox
+Channel sync-commercial-archive
+Channel sync-commercial-sent
+Channel sync-commercial-trash
+
+## THIRD ACCOUNT (lorentzlaan@markbroeders.nl)
+IMAPaccount Ll
+Host mail.mijndomein.nl
+User lorentzlaan@markbroeders.nl
+# Pass
+# Fetch password from a gpg-encrypted file:
+PassCmd "gpg --quiet --for-your-eyes-only --decrypt $HOME/.imappassword.gpg"
+# Use SSL
+SSLType IMAPS
+# The following line should work. If get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore ll-remote
+Account Ll
+
+# Maildir part: where do we want to store emails
+MaildirStore ll-local
+Subfolders Verbatim
+Path ~/.mail/lorentzlaan/
+Inbox ~/.mail/lorentzlaan/inbox
+
+# Synchronize stuff
+# I want to synchronize my server Inbox with my on disk Inbox both ways. If the Inbox folder
+# does not exist on disk, create it. The name of the Inbox on the server is Inbox.
+# This can be translated to the following.
+
+Channel sync-ll-inbox
+Master :ll-remote:
+Slave :ll-local:Inbox
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-archive
+Master :ll-remote:"Archive"
+Slave :ll-local:Archive
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-archive
+Master :ll-remote:"Abonnementen"
+Slave :ll-local:Abonnementen
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-archive
+Master :ll-remote:"MUNT"
+Slave :ll-local:Munt
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-archive
+Master :ll-remote:"Synology"
+Slave :ll-local:Synology
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-sent
+Master :ll-remote:"Sent"
+Slave :ll-local:Sent
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Channel sync-ll-trash
+Master :ll-remote:"Junk"
+Slave :ll-local:Trash
+Create Slave
+SyncState *
+CopyArrivalDate yes
+
+Group Ll
+Channel sync-ll-inbox
+Channel sync-ll-archive
+Channel sync-ll-sent
+Channel sync-ll-trash
+#+end_src
+
 TODO - reorganize this file!!
 
 #+begin_src emacs-lisp
 
-(use-package pinentry)
-(use-package mu4e
-  :ensure nil
-  :config
-    
-    ;; This is set to 't' to avoid mail syncing issues when using mbsync
-    (setq mu4e-change-filenames-when-moving t)
-
-    (setq mu4e-sent-folder   "/Sent")       ;; folder for sent messages
-    (setq mu4e-drafts-folder "/drafts")     ;; unfinished messages
-    (setq mu4e-trash-folder  "/Trash")      ;; trashed messages
-    (setq mu4e-refile-folder "/Archive")   ;; saved messages
-
-    (setq mu4e-get-mail-command (format "INSIDE_EMACS=%s mbsync -a" emacs-version)
-        epg-pinentry-mode 'ask)
-    (pinentry-start)
-
-    (setq
-    message-send-mail-function   'smtpmail-send-it
-    smtpmail-default-smtp-server "mail.mijndomein.nl"
-    smtpmail-smtp-server         "mail.mijndomein.nl"
-    smtpmail-stream-type          'starttls
-    smtpmail-smtp-service 587
-    )
-
-    (setq user-full-name "Mark Broeders"))
 
 #+end_src
 

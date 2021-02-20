@@ -35,12 +35,21 @@ Inbox ~/.mail/mail/inbox
 # does not exist on disk, create it. The name of the Inbox on the server is Inbox.
 # This can be translated to the following.
 
-Channel sync-personal-inbox
+Channel personal
 Master :personal-remote:
-Slave :personal-local:Inbox
-Create Slave
+Slave :personal-local:
+Patterns * 
+Create Both
 SyncState *
+Sync All
 CopyArrivalDate yes
+
+#Channel sync-personal-inbox
+#Master :personal-remote:
+#Slave :personal-local:Inbox
+#Create Slave
+#SyncState *
+#CopyArrivalDate yes
 
 #Channel sync-personal-default
 #Master :personal-remote:
@@ -49,40 +58,6 @@ CopyArrivalDate yes
 #Create Slave
 #SyncState *
 #CopyArrivalDate yes
-
-Channel sync-personal-archive
-Master :personal-remote:"Archive"
-Slave :personal-local:Archive
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-personal-archive
-Master :personal-remote:"Rino"
-Slave :personal-local:Rino
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-personal-sent
-Master :personal-remote:"Sent"
-Slave :personal-local:Sent
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-personal-trash
-Master :personal-remote:"Junk"
-Slave :personal-local:Trash
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Group Personal
-Channel sync-personal-inbox
-Channel sync-personal-archive
-Channel sync-personal-sent
-Channel sync-personal-trash
 
 ## SECOND ACCOUNT (inbox@markbroeders.nl)
 IMAPaccount Commercial
@@ -110,54 +85,14 @@ Inbox ~/.mail/inbox/inbox
 # does not exist on disk, create it. The name of the Inbox on the server is Inbox.
 # This can be translated to the following.
 
-Channel sync-commercial-inbox
+Channel commercial
 Master :commercial-remote:
-Slave :commercial-local:Inbox
-Create Slave
+Slave :commercial-local:
+Patterns * 
+Create Both
 SyncState *
+Sync All
 CopyArrivalDate yes
-
-#Channel sync-personal-default
-#Master :personal-remote:
-#Slave :personal-local:
-## Patterns "INBOX" "POSTVAK IN" "inbox" "Postvak IN"
-#Create Slave
-#SyncState *
-#CopyArrivalDate yes
-
-Channel sync-commercial-archive
-Master :commercial-remote:"Archive"
-Slave :commercial-local:Archive
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-commercial-archive
-Master :commercial-remote:"Facturen"
-Slave :commercial-local:Facturen
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-commercial-sent
-Master :commercial-remote:"Sent"
-Slave :commercial-local:Sent
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-commercial-trash
-Master :commercial-remote:"Junk"
-Slave :commercial-local:Trash
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Group Commercial
-Channel sync-commercial-inbox
-Channel sync-commercial-archive
-Channel sync-commercial-sent
-Channel sync-commercial-trash
 
 ## THIRD ACCOUNT (lorentzlaan@markbroeders.nl)
 IMAPaccount Ll
@@ -178,64 +113,12 @@ Account Ll
 MaildirStore ll-local
 Subfolders Verbatim
 Path ~/.mail/lorentzlaan/
-Inbox ~/.mail/lorentzlaan/inbox
 
-# Synchronize stuff
-# I want to synchronize my server Inbox with my on disk Inbox both ways. If the Inbox folder
-# does not exist on disk, create it. The name of the Inbox on the server is Inbox.
-# This can be translated to the following.
-
-Channel sync-ll-inbox
+Channel ll
 Master :ll-remote:
-Slave :ll-local:Inbox
-Create Slave
+Slave :ll-local:
+Patterns * 
+Create Both
 SyncState *
+Sync All
 CopyArrivalDate yes
-
-Channel sync-ll-archive
-Master :ll-remote:"Archive"
-Slave :ll-local:Archive
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-ll-archive
-Master :ll-remote:"Abonnementen"
-Slave :ll-local:Abonnementen
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-ll-archive
-Master :ll-remote:"MUNT"
-Slave :ll-local:Munt
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-ll-archive
-Master :ll-remote:"Synology"
-Slave :ll-local:Synology
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-ll-sent
-Master :ll-remote:"Sent"
-Slave :ll-local:Sent
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Channel sync-ll-trash
-Master :ll-remote:"Junk"
-Slave :ll-local:Trash
-Create Slave
-SyncState *
-CopyArrivalDate yes
-
-Group Ll
-Channel sync-ll-inbox
-Channel sync-ll-archive
-Channel sync-ll-sent
-Channel sync-ll-trash

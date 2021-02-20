@@ -192,6 +192,19 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 #+end_src
 
+** Bluetooth Volume Control on Laptop
+
+#+begin_src emacs-lisp
+
+(when (string= (system-name) "arch-laptop")
+    ;; this will output ls
+    (global-set-key (kbd "C-c v u")
+        (lambda () (interactive) (shell-command "sh -c 'pactl set-sink-mute 1 false ; pactl set-sink-volume 1 +5%'")))
+    (global-set-key (kbd "C-c v d")
+        (lambda () (interactive) (shell-command "sh -c 'pactl set-sink-mute 1 false ; pactl set-sink-volume 1 -5%'"))))
+
+#+end_src
+
 * UI Configuration
 ** Color Theme
 

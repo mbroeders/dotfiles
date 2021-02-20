@@ -28,7 +28,8 @@
   ;; - Start nm-applet
   (when (string= (system-name) "arch-laptop")  
   ;  (display-battery-mode 1)
-    (efs/run-in-background "nm-applet"))
+    (efs/run-in-background "nm-applet")
+    (efs/run-in-background "blueman-applet"))
 
   ;; Show the time and date in modeline
   ;(setq display-time-day-and-date t)

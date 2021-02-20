@@ -83,7 +83,7 @@
             (lambda ()
               (pcase exwm-class-name
                 ("Vimb" (exwm-workspace-rename-buffer (format "vimb: %s" exwm-title)))
-                ("qutebrowser" (exwm-workspace-rename-buffer (format "Browser: %s" exwm-title))))))
+                ("qutebrowser" (exwm-workspace-rename-buffer (format "qb: %s" exwm-title))))))
 
   ;; Manipulate windows as they're created
     (add-hook 'exwm-manage-finish-hook
@@ -193,14 +193,15 @@
 
   (exwm-enable))
 
-(use-package desktop-environment
-  :after exwm
-  :config (desktop-environment-mode)
-  :custom
-  (desktop-environment-brightness-small-increment "2%+")
-  (desktop-environment-brightness-small-decrement "2%-")
-  (desktop-environment-brightness-normal-increment "5%+")
-  (desktop-environment-brightness-normal-decrement "5%-"))
+(when (string= (system-name) "arch-pc")
+    (use-package desktop-environment
+    :after exwm
+    :config (desktop-environment-mode)
+    :custom
+    (desktop-environment-brightness-small-increment "2%+")
+    (desktop-environment-brightness-small-decrement "2%-")
+    (desktop-environment-brightness-normal-increment "5%+")
+    (desktop-environment-brightness-normal-decrement "5%-")))
 
 #+end_src
 

@@ -82,7 +82,8 @@
 
 ** Set Browser
 
-I use the excellent [[https://github.com/qutebrowser/qutebrowser][qutebrowser]] as browser so let's make sure it's used as the standard webbrowser to open links.
+I use the excellent [[https://github.com/qutebrowser/qutebrowser][qutebrowser]] as browser so let's make sure it's used as the 
+standard webbrowser.
 
 #+begin_src emacs-lisp
 

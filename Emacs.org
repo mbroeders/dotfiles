@@ -945,7 +945,8 @@ Set up basic configuration and the superhandy keybinding 'C-x C-j' to //jump// t
     (setq eradio-channels '(("radio 1 - nieuws"  . "https://icecast.omroep.nl/radio1-bb-mp3")
                             ("metal - soma fm"   . "https://somafm.com/metal130.pls")           ;; \m/
                             ("cyberia - lainon"  . "https://lainon.life/radio/cyberia.ogg.m3u") ;; cyberpunk-esque electronica
-                            ("cafe - lainon"     . "https://lainon.life/radio/cafe.ogg.m3u"))))  ;; boring ambient, but with lain
+                            ("cafe - lainon"     . "https://lainon.life/radio/cafe.ogg.m3u")  ;; boring ambient, but with lain
+                            ("fip - france"      . "http://icecast.radiofrance.fr/fip-midfi.mp3"))))
 
 #+end_src
 ** Analyze Startup

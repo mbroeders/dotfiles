@@ -80,6 +80,17 @@
 
 #+end_src
 
+** Set Browser
+
+I use the excellent [[https://github.com/qutebrowser/qutebrowser][qutebrowser]] as browser so let's make sure it's used as the standard webbrowser to open links.
+
+#+begin_src emacs-lisp
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "/usr/bin/qutebrowser")
+
+#+end_src
+
 * Package System Setup
 
 #+begin_src emacs-lisp

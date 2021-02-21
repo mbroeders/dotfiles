@@ -400,7 +400,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
     (setq org-todo-keywords
     '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@/!)" "CANCELLED(c@/!" "|" "DONE(d!)")
-      (sequence "PROJ(p)" "PLAN(P)" "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "Done(d!)" "CANC(k@")))
+      (sequence "PROJ(p)" "PLAN(P)" "Next(n)" "WAIT(w@/!)" "|" "Done(d!)" "CANC(k@")))
 
     (setq org-refile-targets
     '(("../general_archive.org" :maxlevel . 1)
@@ -445,7 +445,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
             (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
     ("n" "Next Tasks"
-        ((todo "NEXT"
+        ((todo "NEXT|TODO"
             ((org-agenda-overriding-header "Next Tasks")))))
 
     ("W" "Work Tasks" tags-todo "+work-email")

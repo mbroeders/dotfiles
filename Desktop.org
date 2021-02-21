@@ -282,6 +282,7 @@ gg https://www.google.com
 nos https://www.nos.nl
 fm https://www.nederland.fm
 efs https://github.com/daviwil/emacs-from-scratch
+sp https://open.spotify.com/
 
 #+end_src
 ** Polybar

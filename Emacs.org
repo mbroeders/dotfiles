@@ -621,13 +621,8 @@ And some old configuration code that I will have to review
 
 #+begin_src emacs-lisp 
 
-(use-package org-gcal)
-    
-(require 'org-gcal)
-(setq org-gcal-client-id "654504357394-ne75np3aa0k29n1c9dceoj42b1hvam44.apps.googleusercontent.com"
-        org-gcal-client-secret "eTElKNm37zuuwpGgeNldvdiX"
-        org-gcal-fetch-file-alist '(("mbroeders@gmail.com" .  "~/documents/org/agenda.org")
-                                    ("family08361847864604318057@group.calendar.google.com" .  "~/documents/org/family_agenda.org")))
+(load-file "./.emacs.d/gcal.el")
+
 #+end_src
 
 * Mail

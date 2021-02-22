@@ -391,7 +391,9 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
     (setq org-agenda-files
     '("~/documents/org/gtd/inbox.org"
-      "~/documents/org/gtd/agenda.org"
+      "~/documents/org/agenda.org"
+      ;; "~/documents/org/family_agenda.org"
+      "~/documents/org/gtd/mail.org"
       "~/documents/org/gtd/projects.org"))
 
     (require 'org-habit)
@@ -401,7 +403,8 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     (setq org-todo-keywords
     '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@/!)" "CANCELLED(c@/!" "|" "DONE(d!)")
       (sequence "PROJ(p)" "PLAN(P)" "Next(n)" "WAIT(w@/!)" "|" "Done(d!)" "CANC(k@")))
-
+ 
+    (require 'org-refile)
     (setq org-refile-targets
     '(("../general_archive.org" :maxlevel . 1)
     ("../general_tasks.org" :maxlevel . 1)))
@@ -418,6 +421,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     ("@WORK" . ?W)
     ("@PHONE" . ?t)
     ("project" . ?p)
+    ("habit"  . ?h)
     ("publish" . ?P)
     ("note" . ?n)
     ("idea" . ?i)))
@@ -438,23 +442,26 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
 
 ;; Configure custom agenda views
 (setq org-agenda-custom-commands
-    '(("d" "Dashboard"
+    '(
+    ("w" "Weekly Review"
+        ((agenda "")
+         (todo "NEXT"
+            ((org-agenda-overriding-header "Next Items")))
+         (tags-todo "-project-habit/TODO"
+            ((org-agenda-overriding-header "TODO Items")))))
+    ("d" "Dashboard"
         ((agenda "" ((org-deadline-warning-days 7)))
             (todo "NEXT"
                 ((org-agenda-overriding-header "Next Tasks")))
             (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
-
+    ("P" "Projects"
+        ((tags-todo "project")
+         (org-agenda-files '("~/documents/org/gtd/projects.org"))))
     ("n" "Next Tasks"
         ((todo "NEXT|TODO"
-            ((org-agenda-overriding-header "Next Tasks")))))
+            ((org-agenda-overriding-header "Next Tasks")))))))
 
-    ("W" "Work Tasks" tags-todo "+work-email")
 
-    ;; Low-effort next actions
-    ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-        ((org-agenda-overriding-header "Low Effort Tasks")
-         (org-agenda-max-todos 20)
-         (org-agenda-files org-agenda-files)))))
 #+end_src
 
 And some old configuration code that I will have to review
@@ -488,6 +495,14 @@ And some old configuration code that I will have to review
 (todo "CANC"
 ((org-agenda-overriding-header "Cancelled Projects")
 (org-agenda-files org-agenda-files)))))
+
+    ("W" "Work Tasks" tags-todo "+work-email")
+
+    ;; Low-effort next actions
+    ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+        ((org-agenda-overriding-header "Low Effort Tasks")
+         (org-agenda-max-todos 20)
+         (org-agenda-files org-agenda-files)))
 
 #+end_src
 
@@ -531,9 +546,9 @@ And some old configuration code that I will have to review
   "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)
 
 ("e" "Email Workflow")
-("ef" "Follow Up" entry (file+headline "~/documents/org/gtd/inbox.org" "Follow-up")
+("ef" "Follow Up" entry (file+headline "~/documents/org/gtd/mail.org" "Follow-up")
     "* TODO Follow up with %:fromname on %:subject\n%a\n\n%i")
-("er" "Read Later" entry (file+headline "~/documents/org/gtd/inbox.org" "Read Later")
+("er" "Read Later" entry (file+headline "~/documents/org/gtd/mail.org" "Read Later")
     "* TODO Read %:subject\n%a\n\n%i")
 
 ("h" "Hobbies")
@@ -604,16 +619,15 @@ And some old configuration code that I will have to review
 
 ** Sync Google Calendar
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp 
 
-(use-package org-gcal
-    :config
-        (require 'org-gcal)
-        (setq org-gcal-client-id "657985220157-lfv9u226bbna5rgprfovea1cm49eogbt.apps.googleusercontent.com"
-                org-gcal-client-secret "bKdOOHoME7zHhKz2woHfj01H"
-                org-gcal-fetch-file-alist '(("mbroeders@gmail.com" .  "~/documents/org/gtd/agenda.org")
-                                            ("family08361847864604318057@group.calendar.google.com" .  "~/documents/org/gtd/agenda.org"))))
+(use-package org-gcal)
     
+(require 'org-gcal)
+(setq org-gcal-client-id "654504357394-ne75np3aa0k29n1c9dceoj42b1hvam44.apps.googleusercontent.com"
+        org-gcal-client-secret "eTElKNm37zuuwpGgeNldvdiX"
+        org-gcal-fetch-file-alist '(("mbroeders@gmail.com" .  "~/documents/org/agenda.org")
+                                    ("family08361847864604318057@group.calendar.google.com" .  "~/documents/org/family_agenda.org")))
 #+end_src
 
 * Mail

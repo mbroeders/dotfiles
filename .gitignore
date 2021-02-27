@@ -17,3 +17,7 @@
 .config/qutebrowser/config.py
 .config/qutebrowser/quickmarks
 Gcal.org
+
+.local/share/fonts/.uuid
+.local/share/qutebrowser/
+.local/share/recently-used.xbel

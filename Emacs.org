@@ -1,4 +1,4 @@
-#+TITLE: Emacs Configuration File
+#+TITLE: Emacs Configuration File
 #+PROPERTY: header-args :tangle "./.emacs.d/init.el"
 
 * Startup Performance
@@ -621,7 +621,7 @@ And some old configuration code that I will have to review
 
 #+begin_src emacs-lisp 
 
-(load-file "./.emacs.d/gcal.el")
+(load-file "~/.emacs.d/gcal.el")
 
 #+end_src
 

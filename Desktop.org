@@ -212,9 +212,10 @@ Basic Configuration
 #+begin_src python :tangle ".config/qutebrowser/config.py" :mkdirp yes
 
 # Open every tab as a new window, Vimb style
-c.tabs.tabs_are_windows = True
-c.tabs.show = "multiple"
-c.tabs.last_close = "close"
+# Especially useful when using EXWM; however, now not so much
+# c.tabs.tabs_are_windows = True
+# c.tabs.show = "multiple"
+# c.tabs.last_close = "close"
 
 c.auto_save.session = True
 c.scrolling.smooth = True
@@ -283,6 +284,8 @@ nos https://www.nos.nl
 fm https://www.nederland.fm
 efs https://github.com/daviwil/emacs-from-scratch
 sp https://open.spotify.com/
+na http://192.168.178.53:5000
+nm http://192.168.178.53:5000
 
 #+end_src
 ** Polybar

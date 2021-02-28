@@ -541,6 +541,9 @@ And some old configuration code that I will have to review
   "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
 ("m" "Metrics Capture")
+("mc" "Fietsen" table-line
+  (file+headline "~/documents/org/gtd/metrics.org" "Cycling")
+  "| %U | %^{Distance} | %^{Avg speed} | %^{Duration} | %^{Avg heartrate} | %^{Notes} |" :kill-buffer t)
 ("mw" "Weight" table-line 
   (file+headline "~/documents/org/gtd/metrics.org" "Weight")
   "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)

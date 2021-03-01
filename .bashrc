@@ -18,7 +18,7 @@ alias pacs='sudo pacman -Ss'    # Search for package(s)
 alias xrs='sudo xbps-query -Rs'   # Search for package in repos
 alias xin='sudo xbps-install'     # Install package
 alias xup='sudo xbps-install -Su' # Update all packages
-alias xre='suco xbps-remove -Rov' # Remove package, dependencies and orphans
+alias xre='sudo xbps-remove -Rov' # Remove package, dependencies and orphans
 
 # Various program aliases
 alias radio1='mpv http://icecast.omroep.nl/radio1-bb-mp3'   # Play radio 1 from command line

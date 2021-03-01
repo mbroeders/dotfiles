@@ -392,7 +392,7 @@ Since I let evil-mode take over C-u for buffer scrolling, I need to rebind the u
     (setq org-agenda-files
     '("~/documents/org/gtd/inbox.org"
       "~/documents/org/agenda.org"
-      ;; "~/documents/org/family_agenda.org"
+      "~/documents/org/family_agenda.org"
       "~/documents/org/gtd/mail.org"
       "~/documents/org/gtd/projects.org"))
 

@@ -62,9 +62,9 @@
 (defun efs/start-panel ()
   (interactive)
   (efs/kill-panel)
-  (when (string= (system-name) "arch-laptop") 
+  (when (string= (system-name) "void-laptop") 
     (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel-laptop")))
-  (when (string= (system-name) "arch-pc") 
+  (when (string= (system-name) "void-pc") 
     (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel-desktop"))))
 
 (defun efs/send-polybar-hook (module-name hook-index)
@@ -116,7 +116,7 @@
   (require 'exwm-randr)
   (exwm-randr-enable)
   ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
-  (when (string= (system-name) "arch-laptop")
+  (when (string= (system-name) "void-laptop")
     (start-process-shell-command "xrandr" nil "xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --off"))
 
   ;; NOT NECESSARY BECAUSE POLYBAR
@@ -213,9 +213,9 @@ Basic Configuration
 
 # Open every tab as a new window, Vimb style
 # Especially useful when using EXWM; however, now not so much
-# c.tabs.tabs_are_windows = True
-# c.tabs.show = "multiple"
-# c.tabs.last_close = "close"
+c.tabs.tabs_are_windows = True
+c.tabs.show = "multiple"
+c.tabs.last_close = "close"
 
 c.auto_save.session = True
 c.scrolling.smooth = True
@@ -285,7 +285,6 @@ fm https://www.nederland.fm
 efs https://github.com/daviwil/emacs-from-scratch
 sp https://open.spotify.com/
 na http://192.168.178.53:5000
-nm http://192.168.178.53:5000
 
 #+end_src
 ** Polybar
@@ -344,7 +343,7 @@ module-margin = 1
 font-0 = "Cantarell:size=10:weight=bold;2"
 font-1 = "Font Awesome:size=8;2"
 font-2 = "Material Icons:size=10;5"
-font-3 = "Fira Mono:size=12;5"
+font-s= "Fira Mono:size=12;5"
 
 modules-left = exwm-workspace
 modules-right = wireless-network temperature battery date

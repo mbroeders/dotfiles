@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel version="1.0"
+      xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+      xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
+  <bookmark href="file:///home/mark/Downloads/Facturatie%20ZZP%20-%20Mark%20Broeders.xlsx" added="2021-02-28T19:26:11.610975Z" modified="2021-02-28T19:26:13.064552Z" visited="2021-02-28T19:26:11.610976Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-02-28T19:26:13.064549Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/mark/Downloads/GZ2019-J%20declaratie%20lesgeven%20Ouderenpsychologie.pdf" added="2021-02-28T19:27:09.355671Z" modified="2021-02-28T19:27:11.049292Z" visited="2021-02-28T19:27:09.355672Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-02-28T19:27:11.049289Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/mark/Syncthing/ZZP/Facturen/20210301%20Factuur%20Ouderenpsychologie%20GZ2019C" added="2021-02-28T19:53:52.142458Z" modified="2021-02-28T19:54:14.621546Z" visited="2021-02-28T19:53:52.142460Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-02-28T19:54:14.621539Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/mark/Syncthing/ZZP/Facturen/20210301%20Factuur%20Ouderenpsychologie%20GZ2019C.odt" added="2021-02-28T19:53:52.826367Z" modified="2021-02-28T19:54:15.245796Z" visited="2021-02-28T19:53:52.826368Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.oasis.opendocument.text"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-02-28T19:54:15.245795Z" count="4"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/mark/Syncthing/ZZP/Facturen/20210301%20Factuur%20Ouderenpsychologie%20GZ2019C.pdf" added="2021-02-28T19:54:23.896433Z" modified="2021-02-28T19:54:25.370094Z" visited="2021-02-28T19:54:23.896434Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-02-28T19:54:25.370090Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/mark/Syncthing/ZZP/Facturen/Factuur_Broeders_GZ2019C.pdf" added="2021-03-01T10:03:43.128796Z" modified="2021-03-01T10:03:43.882886Z" visited="2021-03-01T10:03:43.128797Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/pdf"/>
+        <bookmark:applications>
+          <bookmark:application name="LibreOffice 7.0" exec="&apos;soffice %u&apos;" modified="2021-03-01T10:03:43.882884Z" count="3"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+</xbel>

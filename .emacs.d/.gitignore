@@ -1,8 +1,0 @@
-# -*- mode: gitignore; -*-
-
-elpa/
-eshell/history
-eshell/lastdir
-var/
-.org-generic-id-locations
-gcal.el

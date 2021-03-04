@@ -24,3 +24,4 @@ alias xre='sudo xbps-remove -Rov' # Remove package, dependencies and orphans
 alias radio1='mpv http://icecast.omroep.nl/radio1-bb-mp3'   # Play radio 1 from command line
 alias aria2c='aria2c --seed-time=0'                         # Download torrent and stop when finished
 alias rdp='remmina -c '                                     # Open RDP file
+source "$HOME/.cargo/env"

@@ -9,3 +9,4 @@
     #	startx
     #   dbus-launch --exit-with-session sway
 #fi
+source "$HOME/.cargo/env"

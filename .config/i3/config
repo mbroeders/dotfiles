@@ -191,8 +191,15 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ####
-# CUSTOM KEYBINDINGS
+# CUSTOM CONFIGURATION
 #
+
+# Only enable gaps on a workspace when there is at least one container
+smart_gaps on
+gaps inner 10
+
+# Hide window title border
+default_border pixel 2
 
 bindsym $mod+q exec qutebrowser
 for_window [class="qutebrowser"] move container to workspace $ws9
@@ -261,4 +268,5 @@ bindsym $mod+Shift+x mode "$mode_system"
 #
 
 exec emacs --daemon
-
+exec feh --bg-scale ~/Wallpapers/min2.jpg
+exec picom

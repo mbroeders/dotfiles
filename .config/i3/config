@@ -207,6 +207,9 @@ for_window [class="qutebrowser"] move container to workspace $ws9
 set $emacs emacsclient -n -c -F "'(fullscreen . fullboth)"
 bindsym $mod+c exec $emacs
 
+set $term alacritty
+bindsym $mod+n exec $term -e nnn
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {

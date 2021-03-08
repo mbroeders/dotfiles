@@ -26,10 +26,11 @@
   ;; When using laptop: 
   ;; - Show battery status in the mode line
   ;; - Start nm-applet
-  (when (string= (system-name) "arch-laptop")  
+  (when (string= (system-name) "void-laptop")  
   ;  (display-battery-mode 1)
-    (efs/run-in-background "nm-applet")
-    (efs/run-in-background "blueman-applet"))
+    ; (efs/run-in-background "nm-applet")
+    ; (efs/run-in-background "blueman-applet")
+    )
 
   ;; Show the time and date in modeline
   ;(setq display-time-day-and-date t)
@@ -212,9 +213,9 @@ Basic Configuration
 
 # Open every tab as a new window, Vimb style
 # Especially useful when using EXWM; however, now not so much
-#c.tabs.tabs_are_windows = True
-#c.tabs.show = "multiple"
-#c.tabs.last_close = "close"
+c.tabs.tabs_are_windows = True
+c.tabs.show = "multiple"
+c.tabs.last_close = "close"
 
 c.auto_save.session = True
 c.scrolling.smooth = True

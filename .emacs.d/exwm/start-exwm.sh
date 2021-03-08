@@ -4,10 +4,10 @@
 # xrdb ~/.emacs.d/exwm/Xresources
 
 # Run the screen compositor
-# compton &
+picom &
 
 # Enable screen locking on suspend
-# xss-lock -- slock &
+xss-lock -- slock &
 
 # Run NetworkManager applet in systray
 # nm-applet --no-agent

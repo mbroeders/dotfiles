@@ -208,6 +208,8 @@ set $emacs emacsclient -n -c -F "'(fullscreen . fullboth)"
 bindsym $mod+c exec $emacs
 
 set $term alacritty
+set $spotify alacritty -e /home/mark/Syncthing/scripts/spotify.sh
+bindsym $mod+p exec $spotify
 bindsym $mod+n exec $term -e nnn
 
 # Start i3bar to display a workspace bar (plus the system information i3status
